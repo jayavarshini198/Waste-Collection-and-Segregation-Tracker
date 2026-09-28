@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WastePickup Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div><h1>♻ WastePickup</h1><p>Collection Schedule & Segregation Score Tracker</p></div>
+  <a class="swagger" href="/swagger-ui.html" target="_blank">Open Swagger</a>
+</header>
+
+<main class="container">
+  <section class="cards">
+    <div class="card"><span>Zones</span><strong id="zoneCount">0</strong></div>
+    <div class="card"><span>Households</span><strong id="householdCount">0</strong></div>
+    <div class="card"><span>Pickup Logs</span><strong id="pickupCount">0</strong></div>
+    <div class="card warning"><span>Flagged Households</span><strong id="flaggedCount">0</strong></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>Zone-wise Average Score</h2><button onclick="loadDashboard()">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Zone</th><th>Code</th><th>Average Score</th><th>Households</th><th>Flagged</th></tr></thead><tbody id="zoneScores"></tbody></table></div>
+  </section>
+
+  <section class="grid-2">
+    <div class="panel">
+      <h2>Add Zone</h2>
+      <form id="zoneForm">
+        <input name="name" placeholder="Zone name" required>
+        <input name="code" placeholder="Zone code e.g. Z01" required>
+        <button type="submit">Add Zone</button>
+      </form>
+    </div>
+    <div class="panel">
+      <h2>Add Household</h2>
+      <form id="householdForm">
+        <input name="houseNumber" placeholder="House number" required>
+        <input name="residentName" placeholder="Resident name" required>
+        <input name="phone" placeholder="Phone">
+        <select name="zoneId" id="householdZone" required><option value="">Select zone</option></select>
+        <button type="submit">Add Household</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Configure Pickup Schedule</h2>
+    <form id="scheduleForm" class="form-grid">
+      <select name="zoneId" id="scheduleZone" required><option value="">Select zone</option></select>
+      <select name="pickupDay" required>
+        <option value="MONDAY">Monday</option><option value="TUESDAY">Tuesday</option><option value="WEDNESDAY">Wednesday</option>
+        <option value="THURSDAY">Thursday</option><option value="FRIDAY">Friday</option><option value="SATURDAY">Saturday</option><option value="SUNDAY">Sunday</option>
+      </select>
+      <input type="time" name="startTime" required value="08:00">
+      <input type="time" name="endTime" required value="11:00">
+      <button type="submit">Save Schedule</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Record Pickup & Segregation Score</h2>
+    <p class="hint">The backend accepts a pickup only inside the selected household's zone schedule.</p>
+    <form id="pickupForm" class="form-grid">
+      <select name="householdId" id="pickupHousehold" required><option value="">Select household</option></select>
+      <input name="collectorName" placeholder="Collector name" required>
+      <input type="datetime-local" name="pickupTime" required>
+      <input type="number" name="segregationScore" min="0" max="100" placeholder="Score 0-100" required>
+      <button type="submit">Record Pickup</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>Households</h2><button onclick="loadHouseholds()">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>House</th><th>Resident</th><th>Zone</th><th>Rolling Avg</th><th>Status</th></tr></thead><tbody id="householdTable"></tbody></table></div>
+  </section>
+
+  <div id="message" class="message"></div>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>

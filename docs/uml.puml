@@ -1,0 +1,59 @@
+@startuml WastePickup
+skinparam classAttributeIconSize 0
+hide methods
+
+class Zone {
+  +id : Long <<PK>>
+  +name : String
+  +code : String
+  +active : Boolean
+}
+
+class Schedule {
+  +id : Long <<PK>>
+  +pickupDay : DayOfWeek
+  +startTime : LocalTime
+  +endTime : LocalTime
+  +zone_id : Long <<FK>>
+}
+
+class Household {
+  +id : Long <<PK>>
+  +houseNumber : String
+  +residentName : String
+  +phone : String
+  +averageScore : Double
+  +reminderFlagged : Boolean
+  +zone_id : Long <<FK>>
+}
+
+class PickupLog {
+  +id : Long <<PK>>
+  +collectorName : String
+  +pickupTime : LocalDateTime
+  +segregationScore : Integer [0..100]
+  +flaggedAfterPickup : Boolean
+  +household_id : Long <<FK>>
+  +schedule_id : Long <<FK>>
+}
+
+Zone "1" -- "0..1" Schedule : has schedule
+Zone "1" -- "0..*" Household : contains
+Household "1" -- "0..*" PickupLog : receives
+Schedule "1" -- "0..*" PickupLog : validates
+
+note right of PickupLog
+Business rule:
+Pickup time must match the
+household zone's schedule day
+and fall inside start/end time.
+end note
+
+note bottom of Household
+After every pickup:
+rolling average = average of
+last N pickup scores.
+If average < configured minimum,
+reminderFlagged = true.
+end note
+@enduml

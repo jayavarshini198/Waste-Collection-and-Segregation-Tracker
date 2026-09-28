@@ -1,0 +1,655 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WastePickup - Waste Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <i class="fa-solid fa-recycle"></i>
+        <span>Waste<span>Pickup</span></span>
+    </div>
+
+    <nav>
+
+        <button class="nav-btn active" onclick="showPage('dashboard', this)">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </button>
+
+        <button class="nav-btn" onclick="showPage('zones', this)">
+            <i class="fa-solid fa-location-dot"></i>
+            Zones
+        </button>
+
+        <button class="nav-btn" onclick="showPage('schedules', this)">
+            <i class="fa-solid fa-calendar-days"></i>
+            Schedules
+        </button>
+
+        <button class="nav-btn" onclick="showPage('households', this)">
+            <i class="fa-solid fa-house"></i>
+            Households
+        </button>
+
+        <button class="nav-btn" onclick="showPage('pickups', this)">
+            <i class="fa-solid fa-truck"></i>
+            Pickup Logs
+        </button>
+
+        <button class="nav-btn" onclick="showPage('reports', this)">
+            <i class="fa-solid fa-chart-pie"></i>
+            Reports
+        </button>
+
+        <button class="nav-btn swagger"
+                onclick="openSwagger()">
+            <i class="fa-solid fa-code"></i>
+            Swagger API
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="page active">
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <div class="small-title">
+                <i class="fa-solid fa-recycle"></i>
+                SMART WASTE MANAGEMENT SYSTEM
+            </div>
+
+            <h1>
+                Waste Collection &
+                <br>
+                <span>Segregation Tracker</span>
+            </h1>
+
+            <p>
+                Manage waste collection schedules, household segregation
+                scores and zone-wise performance from one dashboard.
+            </p>
+
+            <div class="status">
+                <span></span>
+                Backend Connected
+            </div>
+
+        </div>
+
+        <div class="planet">
+            <i class="fa-solid fa-earth-americas"></i>
+        </div>
+
+    </div>
+
+
+    <!-- STAT CARDS -->
+
+    <div class="stats">
+
+        <div class="stat-card blue">
+
+            <div class="stat-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div>
+                <p>Total Zones</p>
+                <h2 id="zoneCount">0</h2>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card purple">
+
+            <div class="stat-icon">
+                <i class="fa-solid fa-house"></i>
+            </div>
+
+            <div>
+                <p>Households</p>
+                <h2 id="householdCount">0</h2>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div class="stat-icon">
+                <i class="fa-solid fa-truck"></i>
+            </div>
+
+            <div>
+                <p>Pickup Logs</p>
+                <h2 id="pickupCount">0</h2>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card orange">
+
+            <div class="stat-icon">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+
+            <div>
+                <p>Avg Segregation</p>
+                <h2 id="averageScore">0%</h2>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK OPTIONS -->
+
+    <h2 class="section-title">
+        Management Modules
+    </h2>
+
+    <div class="module-grid">
+
+        <div class="module-card"
+             onclick="showPage('zones')">
+
+            <div class="module-icon blue-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <h3>Zone Management</h3>
+
+            <p>
+                Create and manage waste collection zones.
+            </p>
+
+            <span>Open Module →</span>
+
+        </div>
+
+
+        <div class="module-card"
+             onclick="showPage('schedules')">
+
+            <div class="module-icon purple-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+            </div>
+
+            <h3>Pickup Schedules</h3>
+
+            <p>
+                Manage collection days and time windows.
+            </p>
+
+            <span>Open Module →</span>
+
+        </div>
+
+
+        <div class="module-card"
+             onclick="showPage('households')">
+
+            <div class="module-icon green-icon">
+                <i class="fa-solid fa-house"></i>
+            </div>
+
+            <h3>Households</h3>
+
+            <p>
+                Manage registered households and scores.
+            </p>
+
+            <span>Open Module →</span>
+
+        </div>
+
+
+        <div class="module-card"
+             onclick="showPage('pickups')">
+
+            <div class="module-icon orange-icon">
+                <i class="fa-solid fa-truck"></i>
+            </div>
+
+            <h3>Pickup Logs</h3>
+
+            <p>
+                Record collection and segregation scores.
+            </p>
+
+            <span>Open Module →</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ZONES ================= -->
+
+<section id="zones" class="page">
+
+    <div class="page-header">
+
+        <div>
+            <span class="small-title">MANAGEMENT</span>
+            <h1>Waste Collection Zones</h1>
+            <p>Manage the zones used for waste collection.</p>
+        </div>
+
+        <button class="primary-btn" onclick="loadZones()">
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+        </button>
+
+    </div>
+
+    <div class="glass-card">
+
+        <div class="table-header">
+            <h2>Zones</h2>
+
+            <button class="primary-btn"
+                    onclick="showZoneForm()">
+                <i class="fa-solid fa-plus"></i>
+                Add Zone
+            </button>
+        </div>
+
+        <div id="zoneForm" class="form-box hidden">
+
+            <input id="zoneName"
+                   type="text"
+                   placeholder="Zone name">
+
+            <input id="zoneCode"
+                   type="text"
+                   placeholder="Zone code">
+
+            <button class="primary-btn"
+                    onclick="addZone()">
+                Save Zone
+            </button>
+
+        </div>
+
+        <div id="zonesTable">
+            <div class="loading">Loading zones...</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SCHEDULES ================= -->
+
+<section id="schedules" class="page">
+
+    <div class="page-header">
+
+        <div>
+            <span class="small-title">SCHEDULE MANAGEMENT</span>
+            <h1>Pickup Schedules</h1>
+            <p>Define collection days and time windows for each zone.</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="loadSchedules()">
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+        </button>
+
+    </div>
+
+    <div class="glass-card">
+
+        <div class="table-header">
+            <h2>Schedules</h2>
+
+            <button class="primary-btn"
+                    onclick="showScheduleForm()">
+                <i class="fa-solid fa-plus"></i>
+                Add Schedule
+            </button>
+        </div>
+
+        <div id="scheduleForm"
+             class="form-box hidden">
+
+            <input id="scheduleZoneId"
+                   type="number"
+                   placeholder="Zone ID">
+
+            <select id="scheduleDay">
+
+                <option value="">Select Day</option>
+
+                <option>MONDAY</option>
+                <option>TUESDAY</option>
+                <option>WEDNESDAY</option>
+                <option>THURSDAY</option>
+                <option>FRIDAY</option>
+                <option>SATURDAY</option>
+                <option>SUNDAY</option>
+
+            </select>
+
+            <input id="startTime"
+                   type="time">
+
+            <input id="endTime"
+                   type="time">
+
+            <button class="primary-btn"
+                    onclick="addSchedule()">
+                Save Schedule
+            </button>
+
+        </div>
+
+        <div id="schedulesTable">
+            <div class="loading">Loading schedules...</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOUSEHOLDS ================= -->
+
+<section id="households" class="page">
+
+    <div class="page-header">
+
+        <div>
+            <span class="small-title">HOUSEHOLD MANAGEMENT</span>
+            <h1>Households</h1>
+            <p>View households and their segregation performance.</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="loadHouseholds()">
+
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+
+        </button>
+
+    </div>
+
+    <div class="glass-card">
+
+        <div class="table-header">
+
+            <h2>Registered Households</h2>
+
+            <button class="primary-btn"
+                    onclick="showHouseholdForm()">
+
+                <i class="fa-solid fa-plus"></i>
+                Add Household
+
+            </button>
+
+        </div>
+
+        <div id="householdForm"
+             class="form-box hidden">
+
+            <input id="householdName"
+                   type="text"
+                   placeholder="Resident Name">
+
+            <input id="householdAddress"
+                   type="text"
+                   placeholder="House Number (e.g. H-101)">
+
+            <input id="householdPhone"
+                   type="text"
+                   placeholder="Phone (optional)">
+
+            <input id="householdZoneId"
+                   type="number"
+                   placeholder="Zone ID">
+
+            <button class="primary-btn"
+                    onclick="addHousehold()">
+
+                Save Household
+
+            </button>
+
+        </div>
+
+        <div id="householdsTable">
+            <div class="loading">
+                Loading households...
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PICKUP LOGS ================= -->
+
+<section id="pickups" class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <span class="small-title">
+                COLLECTION MONITORING
+            </span>
+
+            <h1>Pickup Logs</h1>
+
+            <p>
+                Record pickup events and segregation compliance scores.
+            </p>
+
+        </div>
+
+        <button class="primary-btn"
+                onclick="loadPickups()">
+
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+
+        </button>
+
+    </div>
+
+
+    <div class="glass-card">
+
+        <div class="table-header">
+
+            <h2>Pickup Events</h2>
+
+            <button class="primary-btn"
+                    onclick="showPickupForm()">
+
+                <i class="fa-solid fa-plus"></i>
+                Record Pickup
+
+            </button>
+
+        </div>
+
+
+        <div id="pickupForm"
+             class="form-box hidden">
+
+            <input id="pickupHouseholdId"
+                   type="number"
+                   placeholder="Household ID">
+
+            <input id="pickupCollector"
+                   type="text"
+                   placeholder="Collector Name">
+
+            <input id="pickupScore"
+                   type="number"
+                   min="0"
+                   max="100"
+                   placeholder="Segregation Score (0-100)">
+
+            <input id="pickupTime"
+                   type="datetime-local"
+                   title="Pickup Time (optional, defaults to now)">
+
+            <button class="primary-btn"
+                    onclick="addPickup()">
+
+                Record Pickup
+
+            </button>
+
+        </div>
+
+
+        <div id="pickupsTable">
+
+            <div class="loading">
+                Loading pickup logs...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REPORTS ================= -->
+
+<section id="reports" class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <span class="small-title">
+                ANALYTICS
+            </span>
+
+            <h1>Waste Management Reports</h1>
+
+            <p>
+                Analyze segregation performance across zones.
+            </p>
+
+        </div>
+
+        <button class="primary-btn"
+                onclick="loadReports()">
+
+            <i class="fa-solid fa-chart-line"></i>
+            Generate Report
+
+        </button>
+
+    </div>
+
+
+    <div class="report-grid">
+
+        <div class="report-card">
+
+            <i class="fa-solid fa-chart-column"></i>
+
+            <h2>Zone Performance</h2>
+
+            <p>
+                Average segregation score by zone.
+            </p>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <h2>Low Compliance</h2>
+
+            <p>
+                Households requiring reminder notices.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="glass-card">
+
+        <h2>Zone-wise Average Score</h2>
+
+        <div id="reportsTable">
+
+            <div class="loading">
+                Click Generate Report
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        WastePickup © 2026 |
+        Waste Collection & Segregation Tracker
+    </p>
+
+</footer>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
